@@ -1,28 +1,25 @@
 
-class Cliente{
+class Cliente {
     nome;
-    cpf;   
+    cpf;
 }
 
-class ContaCorrente{
+class ContaCorrente {
     agencia;
-    saldo;
+    _saldo = 0; //usar o # é feito de forma "automática" o private, porém se tem o _ é pra não mexer
 
-    sacar(valor){
-        if(this.saldo >= valor){
-            this.saldo -=valor;
+    sacar(valor) {
+        if (this._saldo >= valor) {
+            this._saldo -= valor;
+            return valor;
         }
-        else{
+        else {
             console.log("Saldo insuficiente.");
         }
     }
-    deposito(valor){
-        if(valor > 0){
-            this.saldo +=valor;
-        }
-        else{
-            console.log("Depósito recusado");
-        }
+    depositar(valor) {
+        if (valor <= 0) return; //early return
+        this._saldo += valor;
     }
 }
 
@@ -30,11 +27,12 @@ class ContaCorrente{
 
 const cliente1 = new Cliente();
 const contaCorrenteAlessa = new ContaCorrente();
-contaCorrenteAlessa.saldo = 200;
-contaCorrenteAlessa.sacar(50);
 cliente1.nome = "Alessa";
 cliente1.cpf = 43755829878;
+contaCorrenteAlessa.agencia = 1001;
+contaCorrenteAlessa.depositar(1000);
 
-console.log(contaCorrenteAlessa.saldo);
+const valorSacado = contaCorrenteAlessa.sacar(54);
+console.log(valorSacado)
 
-console.log(cliente1);
+console.log(contaCorrenteAlessa);
