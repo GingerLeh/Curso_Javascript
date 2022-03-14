@@ -1,8 +1,30 @@
+import { Cliente } from "./Cliente.js";
+
 export class ContaCorrente {
+    static numeroDeContas = 0;
     agencia;
     _saldo = 0; //usar o # é feito de forma "automática" o private, porém se tem o _ é pra não mexer
 
-    cliente;
+    _cliente;
+
+    set cliente(novoValor){
+        if(novoValor instanceof Cliente){
+            this._cliente = novoValor;
+        }
+    }
+
+    get cliente(){
+        return this._cliente;
+    }
+    get saldo(){
+        return this._saldo;
+    }
+
+    constructor(agencia, cliente){
+        this.agencia = agencia;
+        this.cliente = cliente;
+        ContaCorrente.numeroDeContas++;
+    }
 
     sacar(valor) {
         if (this._saldo >= valor) {
@@ -13,11 +35,14 @@ export class ContaCorrente {
             console.log("Saldo insuficiente.");
         }
     }
+
     depositar(valor) {
         if (valor <= 0) return; //early return
         this._saldo += valor;
     }
+
     transferir(valor,conta){
+        //conta.cidade = "São Paulo";
         const valorSacado = this.sacar(valor);
         conta.depositar(valorSacado);
     }
